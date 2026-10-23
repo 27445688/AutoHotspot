@@ -1,5 +1,7 @@
 #!/bin/sh
-PLIST=/Library/LaunchDaemons/com.xcode.autohotspot.plist
+# Rootless installs live under /var/jb; on roothide dpkg already sees the jbroot as /.
+case "$(dpkg --print-architecture)" in iphoneos-arm64) PREFIX=/var/jb ;; *) PREFIX= ;; esac
+PLIST=$PREFIX/Library/LaunchDaemons/com.xcode.autohotspot.plist
 if [ "$1" = configure ]; then
     chown root:wheel "$PLIST"
     chmod 644 "$PLIST"

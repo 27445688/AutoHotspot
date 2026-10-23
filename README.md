@@ -19,17 +19,20 @@
 
 | 项目 | 要求 |
 |---|---|
-| 开热点的手机 | **roothide 越狱**（Dopamine roothide 或 Bootstrap roothide），A12 及以上芯片（arm64e） |
-| iOS 版本 | 在 **iOS 16.0.2**（iPhone 14 Pro）上完整测过。iOS 15 和 16 其他版本大概率可用；iOS 17 及以上没验证 |
+| 开热点的手机（roothide） | Dopamine roothide 或 Bootstrap roothide，A12 及以上芯片（arm64e）。**已实机测试** |
+| 开热点的手机（rootless） | 普通 Dopamine、palera1n rootless 等，A8 及以上芯片（arm64 和 arm64e）。**⚠️ 没有实机测试过**，欢迎提 Issue 反馈 |
+| iOS 版本 | 在 **iOS 16.0.2**（iPhone 14 Pro，roothide）上完整测过。iOS 15 和 16 其他版本大概率可用；iOS 17 及以上没验证 |
 | 运营商 | 需要有蜂窝网络，并且套餐允许开个人热点 |
 | 被连的设备 | 任意 iPhone 或 iPad，不需要越狱，**必须和开热点的手机登录同一个 Apple ID**（否则蓝牙地址大约每 15 分钟换一次，插件会认不出来） |
 | 依赖 | PreferenceLoader |
 
-**暂不支持** rootless（普通 Dopamine、palera1n rootless）和 rootful（checkra1n、unc0ver）越狱。插件用到的是私有系统接口，升级 iOS 后可能失效。
+**不支持** rootful 越狱（checkra1n、unc0ver）。插件用到的是私有系统接口，升级 iOS 后可能失效。
 
 ## 安装
 
-1. 从 [Releases](../../releases) 下载最新的 `com.xcode.autohotspot_*_iphoneos-arm64e.deb`。
+1. 从 [Releases](../../releases) 下载和你的越狱类型对应的 deb：
+   - roothide：`com.xcode.autohotspot_*_iphoneos-arm64e.deb`
+   - rootless：`com.xcode.autohotspot_*_iphoneos-arm64.deb`（未实机测试）
 2. 用 Sileo 或 Filza 安装，或者 SSH 到手机后运行 `dpkg -i 文件名.deb`。
 3. 在多任务界面把「设置」划掉，再重新打开。之后就能在「设置」里找到 **「自动热点」**；如果装了插件整理类的插件，就到它的「插件」页里找。
 
@@ -78,8 +81,11 @@
 需要 macOS、Xcode 和 [roothide Theos](https://github.com/roothide/theos)。
 
 ```bash
-make package FINALPACKAGE=1 THEOS=/path/to/theos-roothide
+export THEOS=/path/to/theos-roothide
+./build-all.sh
 ```
+
+这条命令会在 `packages/` 里同时生成 roothide 和 rootless 两个包。只打其中一个，可以用 `make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless`（默认是 roothide）。
 
 | 目录 | 内容 |
 |---|---|
@@ -90,8 +96,8 @@ make package FINALPACKAGE=1 THEOS=/path/to/theos-roothide
 
 ## 排查问题
 
-- **日志**：`/var/jb/var/log/autohotspot.log`。每一次判断和动作都会记录，设置页里也能直接看。
-- **状态文件**：`/var/jb/var/lib/autohotspot/state.plist`。
+- **日志**：在越狱根目录下的 `var/log/autohotspot.log`。rootless 是 `/var/jb/var/log/autohotspot.log`；roothide 在 SSH 里看是 `/var/log/autohotspot.log`。每一次判断和动作都会记录，设置页里也能直接看。
+- **状态文件**：越狱根目录下的 `var/lib/autohotspot/state.plist`。
 - **改了设置或升级插件后**：要先在多任务界面把「设置」划掉，新的设置页才会生效。
 
 ## 已知限制

@@ -1,5 +1,6 @@
 #!/bin/sh
+case "$(dpkg --print-architecture)" in iphoneos-arm64) PREFIX=/var/jb ;; *) PREFIX= ;; esac
 if [ "$1" = purge ]; then
-    rm -rf /var/lib/autohotspot /var/log/autohotspot.log /var/log/autohotspot.log.1
+    rm -rf "$PREFIX/var/lib/autohotspot" "$PREFIX/var/log/autohotspot.log" "$PREFIX/var/log/autohotspot.log.1"
 fi
 exit 0
