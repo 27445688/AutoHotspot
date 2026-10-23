@@ -1,0 +1,14 @@
+#!/bin/sh
+PLIST=/Library/LaunchDaemons/com.xcode.autohotspot.plist
+case "$1" in
+    remove|deconfigure)
+        launchctl unload "$PLIST" 2>/dev/null
+        # launchd kills the daemon outright, so close the hotspot it opened here.
+        /usr/libexec/autohotspotd --release
+        ;;
+    upgrade|failed-upgrade)
+        # The new version resumes a hotspot the old one opened.
+        launchctl unload "$PLIST" 2>/dev/null
+        ;;
+esac
+exit 0

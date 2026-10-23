@@ -1,0 +1,9 @@
+Package: com.xcode.autohotspot
+Name: AutoHotspot (自动热点)
+Version: 1.1.0
+Architecture: iphoneos-arm64e
+Description: 本机没连 Wi-Fi 且蓝牙发现指定 iPhone 在附近时，自动打开个人热点；对方离开或本机连上 Wi-Fi 时自动关闭。
+Maintainer: 张小生
+Author: 张小生
+Section: Tweaks
+Depends: firmware (>= 15.0), preferenceloader

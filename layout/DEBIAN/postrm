@@ -1,0 +1,5 @@
+#!/bin/sh
+if [ "$1" = purge ]; then
+    rm -rf /var/lib/autohotspot /var/log/autohotspot.log /var/log/autohotspot.log.1
+fi
+exit 0

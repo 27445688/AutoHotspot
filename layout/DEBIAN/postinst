@@ -1,0 +1,9 @@
+#!/bin/sh
+PLIST=/Library/LaunchDaemons/com.xcode.autohotspot.plist
+if [ "$1" = configure ]; then
+    chown root:wheel "$PLIST"
+    chmod 644 "$PLIST"
+    launchctl unload "$PLIST" 2>/dev/null
+    launchctl load -w "$PLIST"
+fi
+exit 0

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>title</key><string>自动热点</string>
+    <key>items</key>
+    <array>
+        <!-- Status -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>id</key><string>statusGroup</string>
+            <key>footerText</key><string>读取中…</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>启用自动热点</string>
+            <key>key</key><string>enabled</string>
+            <key>default</key><true/>
+        </dict>
+
+        <!-- Manual control -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>手动控制</string>
+            <key>footerText</key><string>「立即打开」不等蓝牙发现，直接开热点，不受定时和电量限制，之后照常按规则自动关闭。「立即关闭」会关掉热点并进入冷却。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSButtonCell</string>
+            <key>label</key><string>立即打开热点</string>
+            <key>action</key><string>openNow:</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSButtonCell</string>
+            <key>label</key><string>立即关闭热点</string>
+            <key>action</key><string>closeNow:</string>
+        </dict>
+
+        <!-- Schedule -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>定时</string>
+            <key>footerText</key><string>开启后只在设定时段内自动开热点；时段外会关掉插件开的热点并停止扫描。结束时间早于开始时间表示跨夜，例如 22:00–07:00。开始和结束相同表示全天。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>定时</string>
+            <key>key</key><string>scheduleEnabled</string>
+            <key>default</key><false/>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSDefaultCell</string>
+            <key>cellClass</key><string>AHSTimeCell</string>
+            <key>label</key><string>开始时间</string>
+            <key>key</key><string>scheduleStart</string>
+            <key>default</key><integer>480</integer>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSDefaultCell</string>
+            <key>cellClass</key><string>AHSTimeCell</string>
+            <key>label</key><string>结束时间</string>
+            <key>key</key><string>scheduleEnd</string>
+            <key>default</key><integer>1320</integer>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkCell</string>
+            <key>id</key><string>repeat</string>
+            <key>label</key><string>重复</string>
+            <key>detail</key><string>AHSWeekdaysController</string>
+            <key>isController</key><true/>
+        </dict>
+
+        <!-- Rules -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>规则</string>
+            <key>footerText</key><string>本机没连 Wi‑Fi 时，按扫描间隔每次用蓝牙扫 5 秒；看到 Air 且信号强于阈值就开热点。热点上有设备连着时不扫描。手动打开的热点不会被关掉。「没人连接时关闭」：Air 在旁边但一直没连（比如它连着别的 Wi‑Fi），到时间就关热点并进入冷却。把「启用自动热点」关掉再打开可以立即结束冷却。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>信号阈值</string>
+            <key>key</key><string>rssiThreshold</string>
+            <key>default</key><integer>-80</integer>
+            <key>validValues</key><array><integer>-60</integer><integer>-70</integer><integer>-75</integer><integer>-80</integer><integer>-85</integer><integer>-90</integer></array>
+            <key>validTitles</key><array><string>-60 dBm（几乎贴着）</string><string>-70 dBm</string><string>-75 dBm</string><string>-80 dBm（默认）</string><string>-85 dBm</string><string>-90 dBm（很远也算）</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>扫描间隔</string>
+            <key>key</key><string>scanInterval</string>
+            <key>default</key><integer>15</integer>
+            <key>validValues</key><array><integer>15</integer><integer>30</integer><integer>60</integer></array>
+            <key>validTitles</key><array><string>15 秒（反应快，默认）</string><string>30 秒</string><string>60 秒（最省电）</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>Air 离开后关闭</string>
+            <key>key</key><string>leaveDelay</string>
+            <key>default</key><integer>180</integer>
+            <key>validValues</key><array><integer>60</integer><integer>120</integer><integer>180</integer><integer>300</integer><integer>600</integer></array>
+            <key>validTitles</key><array><string>1 分钟</string><string>2 分钟</string><string>3 分钟（默认）</string><string>5 分钟</string><string>10 分钟</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>没人连接时关闭</string>
+            <key>key</key><string>idleTimeout</string>
+            <key>default</key><integer>300</integer>
+            <key>validValues</key><array><integer>180</integer><integer>300</integer><integer>600</integer><integer>900</integer><integer>1800</integer></array>
+            <key>validTitles</key><array><string>3 分钟</string><string>5 分钟（默认）</string><string>10 分钟</string><string>15 分钟</string><string>30 分钟</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>关闭后冷却</string>
+            <key>key</key><string>cooldown</string>
+            <key>default</key><integer>1800</integer>
+            <key>validValues</key><array><integer>600</integer><integer>1800</integer><integer>3600</integer><integer>7200</integer></array>
+            <key>validTitles</key><array><string>10 分钟</string><string>30 分钟（默认）</string><string>1 小时</string><string>2 小时</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>Wi‑Fi 关着时自动打开</string>
+            <key>key</key><string>autoWiFiPower</string>
+            <key>default</key><true/>
+        </dict>
+
+        <!-- Battery -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>label</key><string>省电保护</string>
+            <key>footerText</key><string>暂停时会关掉插件开的热点并停止扫描。接着电源时不受限制。</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkListCell</string>
+            <key>detail</key><string>PSListItemsController</string>
+            <key>label</key><string>电量低于</string>
+            <key>key</key><string>lowBatteryThreshold</string>
+            <key>default</key><integer>20</integer>
+            <key>validValues</key><array><integer>0</integer><integer>10</integer><integer>20</integer><integer>30</integer><integer>40</integer></array>
+            <key>validTitles</key><array><string>不限制</string><string>10% 时暂停</string><string>20% 时暂停（默认）</string><string>30% 时暂停</string><string>40% 时暂停</string></array>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSSwitchCell</string>
+            <key>label</key><string>低电量模式时暂停</string>
+            <key>key</key><string>pauseInLowPowerMode</string>
+            <key>default</key><false/>
+        </dict>
+
+        <!-- Device -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>id</key><string>deviceGroup</string>
+            <key>label</key><string>目标设备</string>
+            <key>footerText</key><string>读取中…</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSEditTextCell</string>
+            <key>label</key><string>型号</string>
+            <key>key</key><string>targetModel</string>
+            <key>default</key><string>iPhone18,4</string>
+            <key>placeholder</key><string>iPhone18,4</string>
+            <key>noAutoCorrect</key><true/>
+            <key>autoCaps</key><string>None</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSButtonCell</string>
+            <key>label</key><string>重新识别</string>
+            <key>action</key><string>relearn:</string>
+        </dict>
+
+        <!-- Diagnostics -->
+        <dict>
+            <key>cell</key><string>PSGroupCell</string>
+            <key>id</key><string>aboutGroup</string>
+            <key>label</key><string>诊断</string>
+        </dict>
+        <dict>
+            <key>cell</key><string>PSLinkCell</string>
+            <key>label</key><string>查看日志</string>
+            <key>detail</key><string>AHSLogViewController</string>
+            <key>isController</key><true/>
+        </dict>
+    </array>
+</dict>
+</plist>
